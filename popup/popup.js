@@ -5,7 +5,7 @@ async function openPopUp() {
    const audibleTabs = await browser.tabs.query({ audible: true });
 
    if (audibleTabs.length === 0) {
-      tabsContainer.textContent = '0 tabs with sound.';
+      tabsContainer.innerHTML = '<span style="padding: 6px;">0 tabs with sound</span>';
       return;
    }
 
@@ -40,7 +40,7 @@ async function createTabItem(tab, tabsContainer) {
    slider.type = 'range';
    slider.min = '0';
    slider.max = '1';
-   slider.step = '0.05';
+   slider.step = '0.01';
    slider.value = volume;
 
    slider.addEventListener('input', (event) => {
@@ -81,17 +81,6 @@ function toggleMute() {
       e.muted = !e.muted;
    });
 }
-const volumeSlider = document.getElementById('volumeSlider');
-
-volumeSlider.addEventListener('click', async () => {
-   let [tab] = await browser.tabs.query({"active": true, "currentWindow": true})
-   const newVolume = volumeSlider.value / 100.0;
-   browser.scripting.executeScript({
-      target: {tabId: tab.id},
-      func: setPageVolume,
-      args: [newVolume]
-   });
-});
 
 document.getElementById('muteBtn').addEventListener('click', async () => {
    let [tab] = await browser.tabs.query({"active": true, "currentWindow": true})
