@@ -81,11 +81,3 @@ function toggleMute() {
       e.muted = !e.muted;
    });
 }
-
-document.getElementById('muteBtn').addEventListener('click', async () => {
-   let [tab] = await browser.tabs.query({"active": true, "currentWindow": true})
-   browser.scripting.executeScript({
-      target: {tabId: tab.id},
-      func: toggleMute,
-   });
-})
